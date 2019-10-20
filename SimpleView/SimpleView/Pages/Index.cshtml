@@ -1,0 +1,220 @@
+﻿@page
+@model IndexModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Airport Explorer</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; left:0px; top:40px; bottom:20px; width:100%; }
+        #infoi {
+          z-index: 50;
+        }
+        #container {
+          width: 200px;
+          height: 200px;
+          position: absolute;
+        }
+        .btn-secondary,
+        .btn-secondary:hover,
+        .btn-secondary:active,
+        .btn-secondary:visited,
+        .btn-secondary:focus {
+            background-color: #8064A2;
+            border-color: #8064A2;
+        }
+    </style>
+</head>
+<body>
+    <div id='map'></div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoidmlyYWpzYW5naHZpMSIsImEiOiJjazF4djRmaWIwZGo2M29wY2lxY2pvZzliIn0.o84srF8i23dd9KCYAS7ntw';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/satellite-v9'
+        });
+
+        @* Metrics show that show the scale *@
+        var scale = new mapboxgl.ScaleControl({
+            unit: 'imperial'
+        });
+        map.addControl(scale);
+        scale.setUnit('metric');
+
+        @* Navigation control *@
+        var nav = new mapboxgl.NavigationControl();
+        map.addControl(nav, 'top-left');
+
+        map.on('load', function () {
+         map.addLayer({
+                id: 'map_fires',
+                type: 'circle',
+                'layout': {
+                    'visibility': 'none'
+                    },
+                source: {
+                        type: 'vector',
+                        url: 'mapbox://virajsanghvi1.ck7mkw38'
+                    },
+                'source-layer': 'MODIS_C6_Global_48h-9u1r8m',
+                'paint': {
+                        'circle-radius': {
+                        'base': 1.75,
+                        'stops': [[12, 2], [22, 180]]
+                        },
+                        'circle-color': "#40ff00"
+                    }
+                });
+         map.addLayer({
+                id: 'a_hngos',
+                type: 'circle',
+                'layout': {
+                    'visibility': 'none'
+                    },
+                source: {
+                        type: 'vector',
+                        url: 'mapbox://virajsanghvi1.0s2ln3oc'
+                    },
+                'source-layer': '12_projects',
+                'paint': {
+                        'circle-radius': {
+                        'base': 1.75,
+                        'stops': [[12, 2], [22, 180]]
+                        },
+                        'circle-color': "#54578a"
+                    }
+                });
+         
+        });
+       
+        function fires() {
+            var visibility = map.getLayoutProperty('map_fires', 'visibility');
+ 
+            if (visibility === 'visible') {
+                map.setLayoutProperty('map_fires', 'visibility', 'none');
+            } else {
+                map.setLayoutProperty('map_fires', 'visibility', 'visible');
+                }
+            };
+
+        function a_hngos() {
+            var visibility = map.getLayoutProperty('a_hngos', 'visibility');
+ 
+            if (visibility === 'visible') {
+                map.setLayoutProperty('a_hngos', 'visibility', 'none');
+            } else {
+                map.setLayoutProperty('a_hngos', 'visibility', 'visible');
+                }
+            };
+
+        function svi_UScounty() {
+            var visibility = map.getLayoutProperty('map_fires', 'visibility');
+            if (visibility === 'visible') {
+                map.setStyle('mapbox://styles/virajsanghvi1/ck1z8opwv45d51cntduka5wry');
+                         map.addLayer({
+                id: 'map_fires',
+                type: 'circle',
+                'layout': {
+                    'visibility': 'none'
+                    },
+                source: {
+                        type: 'vector',
+                        url: 'mapbox://virajsanghvi1.ck7mkw38'
+                    },
+                'source-layer': 'MODIS_C6_Global_48h-9u1r8m',
+                'paint': {
+                        'circle-radius': {
+                        'base': 1.75,
+                        'stops': [[12, 2], [22, 180]]
+                        },
+                        'circle-color': "#40ff00"
+                    }
+                });
+         map.addLayer({
+                id: 'a_hngos',
+                type: 'circle',
+                'layout': {
+                    'visibility': 'none'
+                    },
+                source: {
+                        type: 'vector',
+                        url: 'mapbox://virajsanghvi1.0s2ln3oc'
+                    },
+                'source-layer': '12_projects',
+                'paint': {
+                        'circle-radius': {
+                        'base': 1.75,
+                        'stops': [[12, 2], [22, 180]]
+                        },
+                        'circle-color': "#54578a"
+                    }
+                });
+            } else {
+                map.setStyle('mapbox://styles/mapbox/satellite-v9');
+                         map.addLayer({
+                id: 'map_fires',
+                type: 'circle',
+                'layout': {
+                    'visibility': 'none'
+                    },
+                source: {
+                        type: 'vector',
+                        url: 'mapbox://virajsanghvi1.ck7mkw38'
+                    },
+                'source-layer': 'MODIS_C6_Global_48h-9u1r8m',
+                'paint': {
+                        'circle-radius': {
+                        'base': 1.75,
+                        'stops': [[12, 2], [22, 180]]
+                        },
+                        'circle-color': "#40ff00"
+                    }
+                });
+         map.addLayer({
+                id: 'a_hngos',
+                type: 'circle',
+                'layout': {
+                    'visibility': 'none'
+                    },
+                source: {
+                        type: 'vector',
+                        url: 'mapbox://virajsanghvi1.0s2ln3oc'
+                    },
+                'source-layer': '12_projects',
+                'paint': {
+                        'circle-radius': {
+                        'base': 1.75,
+                        'stops': [[12, 2], [22, 180]]
+                        },
+                        'circle-color': "#54578a"
+                    }
+                });
+                }
+            };
+    </script>
+    <div id="container">
+      <div id="infoi">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dropdown
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <h6 class="dropdown-header">Environmental Hazards</h6>
+            <button class="dropdown-item" type="button" id="eh_fires" onclick="fires()">Fires</button>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">SVI</h6>
+            <button class="dropdown-item" type="button" id="svi_UScounty" onclick="svi_UScounty()">United States SVI</button>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Help</h6>
+            <button class="dropdown-item" type="button" id="a_hngos" onclick="a_hngos()">Active Humanitarian NGOs</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>
